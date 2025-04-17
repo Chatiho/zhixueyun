@@ -1,7 +1,91 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M26.6668 5.33331H5.3335C4.22893 5.33331 3.3335 6.22874 3.3335 7.33331V24.6666C3.3335 25.7712 4.22893 26.6666 5.3335 26.6666H26.6668C27.7714 26.6666 28.6668 25.7712 28.6668 24.6666V7.33331C28.6668 6.22874 27.7714 5.33331 26.6668 5.33331Z" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M9.3335 13.3333L14.6668 17.3333L20.0002 13.3333" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M9.3335 18.6667H22.6668" stroke="#2563EB" stroke-width="2" stroke-linecap="round"/>
-  <circle cx="19.3335" cy="10.6667" r="2" fill="#10B981"/>
-  <circle cx="12.6668" cy="21.3333" r="2" fill="#2563EB"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512" height="512" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <circle cx="100" cy="100" r="90" fill="white" stroke-width="1" stroke="#E5E7EB"/>
+  
+  <!-- 动态流动图形 -->
+  <g id="dynamic-flow">
+    <!-- 中心核心 - 表示知识的汇聚点 -->
+    <circle cx="100" cy="100" r="25" fill="url(#core-gradient)" filter="url(#glow)"/>
+    
+    <!-- 动态轨道 - 象征知识的流动和传递 -->
+    <ellipse cx="100" cy="100" rx="65" ry="45" transform="rotate(-15 100 100)" stroke="url(#orbit1-gradient)" stroke-width="2" stroke-dasharray="3 5"/>
+    <ellipse cx="100" cy="100" rx="55" ry="70" transform="rotate(30 100 100)" stroke="url(#orbit2-gradient)" stroke-width="2" stroke-dasharray="4 6"/>
+    
+    <!-- 知识粒子 - 表示分散的知识点 -->
+    <g id="knowledge-particles" filter="url(#particle-glow)">
+      <circle cx="145" cy="75" r="4" fill="#10B981"/>
+      <circle cx="70" cy="55" r="3.5" fill="#3B82F6"/>
+      <circle cx="150" cy="125" r="3" fill="#3B82F6"/>
+      <circle cx="55" cy="115" r="3.5" fill="#10B981"/>
+      <circle cx="115" cy="155" r="4" fill="#3B82F6"/>
+      <circle cx="60" cy="145" r="3" fill="#10B981"/>
+    </g>
+    
+    <!-- 连接线 - 表示知识的互联互通 -->
+    <path d="M100 100L145 75" stroke="#60A5FA" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.8"/>
+    <path d="M100 100L70 55" stroke="#34D399" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.8"/>
+    <path d="M100 100L150 125" stroke="#60A5FA" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.8"/>
+    <path d="M100 100L55 115" stroke="#34D399" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.8"/>
+    <path d="M100 100L115 155" stroke="#60A5FA" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.8"/>
+    <path d="M100 100L60 145" stroke="#34D399" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.8"/>
+    
+    <!-- 中心符号 - 结合书本和连接符号 -->
+    <g id="center-symbol">
+      <path d="M88 90V110C88 110 94 106 100 106C106 106 112 110 112 110V90C112 90 106 94 100 94C94 94 88 90 88 90Z" 
+            fill="white" stroke="#10B981" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M100 94V106" stroke="#10B981" stroke-width="2"/>
+      <circle cx="100" cy="100" r="3" fill="#3B82F6"/>
+    </g>
+  </g>
+  
+  <!-- 波浪状环绕边缘 - 代表技能传递 -->
+  <path d="M65 65C75 60 80 70 90 65C100 60 110 70 120 65C130 60 135 70 145 65" 
+        stroke="#3B82F6" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <path d="M55 135C65 130 70 140 80 135C90 130 100 140 110 135C120 130 125 140 135 135C145 130 150 140 160 135" 
+        stroke="#10B981" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  
+  <!-- 外环 - 象征生态系统的闭环 -->
+  <circle cx="100" cy="100" r="75" stroke="url(#outer-ring-gradient)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 6" stroke-dashoffset="3"/>
+  
+  <!-- 特效定义 -->
+  <defs>
+    <!-- 核心渐变 -->
+    <radialGradient id="core-gradient" cx="0.5" cy="0.5" r="0.5" fx="0.4" fy="0.4">
+      <stop offset="0%" stop-color="#DBEAFE"/>
+      <stop offset="50%" stop-color="#93C5FD"/>
+      <stop offset="90%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </radialGradient>
+    
+    <!-- 轨道渐变 -->
+    <linearGradient id="orbit1-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <linearGradient id="orbit2-gradient" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    
+    <!-- 外环渐变 -->
+    <linearGradient id="outer-ring-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0EA5E9"/>
+      <stop offset="50%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    
+    <!-- 光晕效果 -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.2 0 0 0 0 0.5 0 0 0 0 0.9 0 0 0 0.3 0"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="normal"/>
+    </filter>
+    
+    <filter id="particle-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.2 0 0 0 0 0.7 0 0 0 0 0.7 0 0 0 0.3 0"/>
+      <feBlend in="SourceGraphic" in2="blur" mode="normal"/>
+    </filter>
+  </defs>
 </svg> 
