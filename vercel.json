@@ -1,6 +1,5 @@
 {
-    "rootDirectory": "zhixueyun",
-    "framework": "nextjs",
-    "buildCommand": "npm run build",
-    "outputDirectory": ".next"
+  "outputDirectory": "zhixueyun/.next",
+  "buildCommand": "cd zhixueyun && npm install && npm run build",
+  "framework": "nextjs"
 }
