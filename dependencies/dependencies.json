@@ -1,0 +1,19 @@
+{
+    "corePackages": [
+        "@radix-ui/react-progress",
+        "@radix-ui/react-slider",
+        "@radix-ui/react-avatar",
+        "@radix-ui/react-tabs",
+        "next-themes",
+        "sonner",
+        "lucide-react",
+        "framer-motion",
+        "chart.js",
+        "react-chartjs-2"
+    ],
+    "devPackages": [
+        "tailwindcss",
+        "typescript",
+        "postcss"
+    ]
+}

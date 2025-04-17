@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>直播课程图片生成器</title>
+    <style>
+         :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1,
+        h2,
+        h3 {
+            color: #1f2937;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            padding-top: 20px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 15px;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 6px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #0ea271;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        
+        .canvas-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .canvas-wrapper canvas {
+            display: block;
+        }
+        
+        .canvas-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .download-btn {
+            display: block;
+            margin: 8px auto;
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .option-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .option-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        select,
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .help-text {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--info);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f3f4f6;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .checklist {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        
+        .checklist ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .checklist li {
+            margin-bottom: 8px;
+        }
+        
+        .image-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .theme-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .theme-preview {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .theme-info {
+            padding: 12px;
+        }
+        
+        .theme-name {
+            font-weight: 600;
+            margin: 0 0 5px 0;
+        }
+        
+        .theme-description {
+            font-size: 14px;
+            color: #6b7280;
+            margin: 0;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>直播课程图片生成器</h1>
+
+        <div class="help-text">
+            <p>本工具帮助你为智学云平台的直播课程生成精美的缩略图。按照下方列表逐一生成所有所需图片。每个图片都会根据主题生成相应的内容。</p>
+        </div>
+
+        <div class="controls">
+            <button id="generateAllBtn" class="btn btn-primary">一键生成所有图片</button>
+            <span style="margin-left: auto;">图片尺寸: 640×360 像素</span>
+        </div>
+
+        <div class="options">
+            <div class="option-group">
+                <label class="option-label">主题</label>
+                <select id="themeSelect">
+                    <option value="frontend">前端开发</option>
+                    <option value="backend">后端开发</option>
+                    <option value="design">设计</option>
+                    <option value="data-science">数据科学</option>
+                    <option value="mobile">移动开发</option>
+                    <option value="devops">DevOps</option>
+                    <option value="general">通用主题</option>
+                    <option value="algorithms">算法与编程</option>
+                </select>
+            </div>
+
+            <div class="option-group">
+                <label class="option-label">样式</label>
+                <select id="styleSelect">
+                    <option value="modern">现代简约</option>
+                    <option value="gradient">渐变风格</option>
+                    <option value="dark">暗色主题</option>
+                    <option value="light">浅色主题</option>
+                </select>
+            </div>
+
+            <div class="option-group">
+                <label class="option-label">操作</label>
+                <button id="generateBtn" class="btn btn-success">生成所选主题</button>
+            </div>
+        </div>
+
+        <div class="canvas-container" id="canvasContainer">
+            <!-- 画布将在这里生成 -->
+        </div>
+
+        <div class="checklist">
+            <h3>需要生成的图片列表</h3>
+            <ul id="imageChecklist">
+                <li>frontend.jpg - 前端开发</li>
+                <li>backend.jpg - 后端开发</li>
+                <li>design.jpg - 设计</li>
+                <li>data-science.jpg - 数据科学</li>
+                <li>mobile.jpg - 移动开发</li>
+                <li>devops.jpg - DevOps</li>
+                <li>general.jpg - 通用主题</li>
+                <li>algorithms.jpg - 算法与编程</li>
+            </ul>
+        </div>
+
+        <div class="status" id="status">
+            准备就绪，请选择主题并生成图片。
+        </div>
+
+        <div class="footer">
+            <p>智学云平台 © 2023-2024 | 图片生成工具 v1.0</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvasContainer = document.getElementById('canvasContainer');
+            const themeSelect = document.getElementById('themeSelect');
+            const styleSelect = document.getElementById('styleSelect');
+            const generateBtn = document.getElementById('generateBtn');
+            const generateAllBtn = document.getElementById('generateAllBtn');
+            const statusEl = document.getElementById('status');
+
+            // 主题颜色映射
+            const themeColors = {
+                frontend: {
+                    primary: '#3b82f6',
+                    secondary: '#93c5fd'
+                },
+                backend: {
+                    primary: '#10b981',
+                    secondary: '#6ee7b7'
+                },
+                design: {
+                    primary: '#ec4899',
+                    secondary: '#f9a8d4'
+                },
+                'data-science': {
+                    primary: '#8b5cf6',
+                    secondary: '#c4b5fd'
+                },
+                mobile: {
+                    primary: '#f59e0b',
+                    secondary: '#fcd34d'
+                },
+                devops: {
+                    primary: '#6366f1',
+                    secondary: '#a5b4fc'
+                },
+                general: {
+                    primary: '#64748b',
+                    secondary: '#cbd5e1'
+                },
+                algorithms: {
+                    primary: '#ef4444',
+                    secondary: '#fca5a5'
+                }
+            };
+
+            // 主题图标和元素
+            const themeElements = {
+                frontend: ['</>', 'HTML', 'CSS', 'JS', 'React', 'Vue'],
+                backend: ['API', 'Node', 'Python', 'Java', 'SQL', 'Cloud'],
+                design: ['UI/UX', '色彩', '布局', '图标', '交互', '原型'],
+                'data-science': ['AI', 'ML', '数据', '分析', 'Python', '可视化'],
+                mobile: ['App', 'iOS', 'Android', 'Flutter', 'React Native', 'UI'],
+                devops: ['CI/CD', 'Docker', 'K8s', '自动化', '监控', '部署'],
+                general: ['学习', '知识', '技能', '成长', '思考', '实践'],
+                algorithms: ['结构', '算法', '复杂度', '优化', '逻辑', '编程']
+            };
+
+            // 主题名称映射
+            const themeNames = {
+                frontend: '前端开发',
+                backend: '后端开发',
+                design: '设计',
+                'data-science': '数据科学',
+                mobile: '移动开发',
+                devops: 'DevOps',
+                general: '通用主题',
+                algorithms: '算法与编程'
+            };
+
+            // 生成画布
+            function createCanvas(theme, style) {
+                const canvasWrapper = document.createElement('div');
+                canvasWrapper.className = 'canvas-wrapper';
+
+                const canvas = document.createElement('canvas');
+                canvas.width = 640;
+                canvas.height = 360;
+                canvasWrapper.appendChild(canvas);
+
+                const title = document.createElement('div');
+                title.className = 'canvas-title';
+                title.textContent = themeNames[theme] || theme;
+                canvasWrapper.appendChild(title);
+
+                const downloadBtn = document.createElement('button');
+                downloadBtn.className = 'btn download-btn';
+                downloadBtn.textContent = '下载图片';
+                downloadBtn.addEventListener('click', () => {
+                    const link = document.createElement('a');
+                    link.download = `${theme}.jpg`;
+                    link.href = canvas.toDataURL('image/jpeg', 0.9);
+                    link.click();
+
+                    statusEl.textContent = `已下载 ${theme}.jpg`;
+
+                    // 更新检查列表
+                    const checklistItems = document.querySelectorAll('#imageChecklist li');
+                    checklistItems.forEach(item => {
+                        if (item.textContent.startsWith(`${theme}.jpg`)) {
+                            item.style.textDecoration = 'line-through';
+                            item.style.color = '#10b981';
+                        }
+                    });
+                });
+
+                canvasWrapper.appendChild(downloadBtn);
+                canvasContainer.appendChild(canvasWrapper);
+
+                drawImage(canvas, theme, style);
+
+                return canvas;
+            }
+
+            // 绘制图像
+            function drawImage(canvas, theme, style) {
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                const colors = themeColors[theme] || themeColors.general;
+
+                // 清除画布
+                ctx.clearRect(0, 0, width, height);
+
+                // 绘制背景
+                if (style === 'gradient') {
+                    const gradient = ctx.createLinearGradient(0, 0, width, height);
+                    gradient.addColorStop(0, colors.primary);
+                    gradient.addColorStop(1, colors.secondary);
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, width, height);
+                } else if (style === 'dark') {
+                    ctx.fillStyle = '#1f2937';
+                    ctx.fillRect(0, 0, width, height);
+
+                    // 添加一些暗色的装饰
+                    ctx.fillStyle = colors.primary + '30';
+                    ctx.beginPath();
+                    ctx.arc(width * 0.8, height * 0.2, width * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = colors.secondary + '20';
+                    ctx.beginPath();
+                    ctx.arc(width * 0.2, height * 0.8, width * 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (style === 'light') {
+                    ctx.fillStyle = '#f8fafc';
+                    ctx.fillRect(0, 0, width, height);
+
+                    // 添加一些浅色的装饰
+                    ctx.fillStyle = colors.primary + '15';
+                    ctx.beginPath();
+                    ctx.arc(width * 0.7, height * 0.3, width * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = colors.secondary + '20';
+                    ctx.beginPath();
+                    ctx.arc(width * 0.3, height * 0.7, width * 0.3, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // 默认现代风格
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, width, height);
+
+                    // 添加一个色块
+                    ctx.fillStyle = colors.primary;
+                    ctx.fillRect(0, 0, width * 0.3, height);
+
+                    // 添加一些装饰元素
+                    ctx.fillStyle = colors.secondary;
+                    ctx.beginPath();
+                    ctx.arc(width * 0.3, height * 0.5, height * 0.2, Math.PI * 1.5, Math.PI * 0.5);
+                    ctx.fill();
+                }
+
+                // 绘制主题名称
+                const themeName = themeNames[theme] || theme;
+                ctx.fillStyle = (style === 'light') ? '#1f2937' : '#ffffff';
+                ctx.font = 'bold 36px sans-serif';
+                ctx.textAlign = 'center';
+
+                if (style === 'modern') {
+                    ctx.textAlign = 'left';
+                    ctx.fillText(themeName, width * 0.4, height * 0.4);
+                } else {
+                    ctx.fillText(themeName, width * 0.5, height * 0.4);
+                }
+
+                // 绘制"直播课程"文字
+                ctx.font = '24px sans-serif';
+                if (style === 'modern') {
+                    ctx.textAlign = 'left';
+                    ctx.fillText('直播课程', width * 0.4, height * 0.5);
+                } else {
+                    ctx.fillText('直播课程', width * 0.5, height * 0.5);
+                }
+
+                // 添加主题元素
+                const elements = themeElements[theme] || themeElements.general;
+                drawThemeElements(ctx, elements, style, width, height, colors);
+
+                // 添加智学云水印
+                ctx.fillStyle = (style === 'light') ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)';
+                ctx.font = '14px sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText('智学云平台', width - 20, height - 20);
+            }
+
+            // 绘制主题元素
+            function drawThemeElements(ctx, elements, style, width, height, colors) {
+                if (style === 'modern') {
+                    // 为现代风格添加技术标签
+                    ctx.font = '16px sans-serif';
+                    ctx.textAlign = 'left';
+
+                    elements.slice(0, 3).forEach((element, index) => {
+                        const y = height * 0.65 + index * 30;
+
+                        // 绘制标签背景
+                        ctx.fillStyle = colors.secondary + '60';
+                        const textWidth = ctx.measureText(element).width;
+                        const padding = 10;
+                        const tagWidth = textWidth + padding * 2;
+                        const tagHeight = 24;
+
+                        ctx.beginPath();
+                        ctx.roundRect(width * 0.4, y - tagHeight + 4, tagWidth, tagHeight, 4);
+                        ctx.fill();
+
+                        // 绘制标签文本
+                        ctx.fillStyle = '#1f2937';
+                        ctx.fillText(element, width * 0.4 + padding, y);
+                    });
+                } else if (style === 'gradient' || style === 'dark') {
+                    // 为渐变或暗色风格添加漂浮元素
+                    ctx.font = '16px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+
+                    elements.forEach((element, index) => {
+                        const angle = (index / elements.length) * Math.PI * 2;
+                        const radius = width * 0.25;
+                        const x = width * 0.5 + Math.cos(angle) * radius;
+                        const y = height * 0.7 + Math.sin(angle) * radius * 0.5;
+
+                        // 绘制圆形背景
+                        ctx.beginPath();
+                        ctx.arc(x, y, 25, 0, Math.PI * 2);
+                        ctx.fillStyle = 'rgba(255,255,255,0.2)';
+                        ctx.fill();
+
+                        // 绘制文字
+                        ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                        ctx.fillText(element, x, y + 5);
+                    });
+                } else {
+                    // 为浅色风格添加有序元素
+                    ctx.font = '16px sans-serif';
+                    ctx.textAlign = 'center';
+
+                    elements.slice(0, 4).forEach((element, index) => {
+                        const x = width * 0.5 + (index - 1.5) * 80;
+                        const y = height * 0.7;
+
+                        // 绘制圆形背景
+                        ctx.beginPath();
+                        ctx.arc(x, y, 30, 0, Math.PI * 2);
+                        ctx.fillStyle = colors.primary + '30';
+                        ctx.fill();
+
+                        // 绘制边框
+                        ctx.beginPath();
+                        ctx.arc(x, y, 30, 0, Math.PI * 2);
+                        ctx.strokeStyle = colors.primary;
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+
+                        // 绘制文字
+                        ctx.fillStyle = '#1f2937';
+                        ctx.fillText(element, x, y + 5);
+                    });
+                }
+            }
+
+            // 生成指定主题的图片
+            generateBtn.addEventListener('click', function() {
+                canvasContainer.innerHTML = '';
+                const theme = themeSelect.value;
+                const style = styleSelect.value;
+                createCanvas(theme, style);
+                statusEl.textContent = `已生成 ${themeNames[theme]} 主题图片，点击"下载图片"按钮保存。`;
+            });
+
+            // 生成所有主题的图片
+            generateAllBtn.addEventListener('click', function() {
+                canvasContainer.innerHTML = '';
+                const style = styleSelect.value;
+
+                Object.keys(themeColors).forEach(theme => {
+                    createCanvas(theme, style);
+                });
+
+                statusEl.textContent = '已生成所有主题图片，请逐一下载。';
+            });
+
+            // 初始生成一个默认图片
+            createCanvas('general', 'modern');
+        });
+    </script>
+</body>
+
+</html>
